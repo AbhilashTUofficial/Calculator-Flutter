@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
+import 'package:neuomorphic_container/neuomorphic_container.dart';
 
 import 'export.dart';
 
@@ -8,6 +11,226 @@ class Screen extends StatefulWidget {
 }
 
 class _ScreenState extends State<Screen> {
+  String calcString = "0";
+
+  calculate(String input) {
+    String result = "0";
+    input = input.replaceAll("÷", "/");
+    input = input.replaceAll("x", "*");
+    try {
+      Parser p = Parser();
+      Expression exp = p.parse(input);
+
+      ContextModel cm = ContextModel();
+      result = '${exp.evaluate(EvaluationType.REAL, cm)}';
+    } catch (e) {}
+    return result;
+  }
+
+  numberBtnPressed(String input) {
+    setState(() {
+      if (calcString.length == 1 && calcString == "0" ||
+          calcString.length == 1 && calcString == "") {
+        calcString = input;
+      } else {
+        calcString += input;
+      }
+    });
+  }
+
+  funcBtnPressed(String input) {
+    setState(() {
+      if (input == "c") {
+        calcString = calcString.substring(0, calcString.length - 1);
+      } else if (input == "!") {
+        var value =double.parse( calculate(calcString)).round();
+        assert(value is int);
+        calcString=calcFactorial(value).toString();
+      } else {
+        if (input == "=") {
+          calcString = calculate(calcString);
+        } else if (input == "ce") {
+          calcString = " ";
+        } else if (!calcString.endsWith("+") &&
+            !calcString.endsWith("-") &&
+            !calcString.endsWith("÷") &&
+            !calcString.endsWith("x") &&
+            !calcString.endsWith(".") &&
+            !calcString.endsWith(" ")) {
+          calcString += input;
+        }
+      }
+    });
+  }
+
+  Widget customNumberButton({@required int number}) {
+    return NeuomorphicContainer(
+      margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+      alignment: Alignment.center,
+      width: 80,
+      height: 80,
+      blur: 26,
+      color: PaletteColor.primaryLightColor,
+      borderRadius: BorderRadius.circular(12),
+      child: FlatButton(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Text(
+          number.toString(),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 24, color: Colors.black87),
+        ),
+        onPressed: () {
+          numberBtnPressed(number.toString());
+        },
+      ),
+    );
+  }
+
+  Widget customClearEverythingButton() {
+    return NeuomorphicContainer(
+      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width / 2 - 20,
+      height: 88,
+      blur: 26,
+      color: PaletteColor.primaryLightColor,
+      borderRadius: BorderRadius.circular(12),
+      child: FlatButton(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Text(
+          "CE",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              color: PaletteColor.functionLightColor),
+        ),
+        onPressed: () => {funcBtnPressed("ce")},
+      ),
+    );
+  }
+
+  Widget customEqualButton() {
+    return NeuomorphicContainer(
+      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width / 2 - 20,
+      height: 88,
+      blur: 26,
+      color: PaletteColor.primaryLightColor,
+      borderRadius: BorderRadius.circular(12),
+      child: FlatButton(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Text(
+          "=",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 32,
+              color: PaletteColor.functionLightColor),
+        ),
+        onPressed: () => {funcBtnPressed("=")},
+      ),
+    );
+  }
+
+  Widget customFunctionButton({@required String func}) {
+    return NeuomorphicContainer(
+      margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+      alignment: Alignment.center,
+      width: 80,
+      height: 80,
+      blur: 26,
+      color: PaletteColor.primaryLightColor,
+      borderRadius: BorderRadius.circular(12),
+      child: FlatButton(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Text(
+          func,
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 32,
+              color: PaletteColor.functionLightColor),
+        ),
+        onPressed: () {
+          funcBtnPressed(func);
+        },
+      ),
+    );
+  }
+
+  Widget customTopBar() {
+    return NeuomorphicContainer(
+      margin: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      alignment: Alignment.center,
+      height: 40,
+      blur: 26,
+      color: PaletteColor.primaryLightColor,
+      borderRadius: BorderRadius.circular(4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              "√x",
+              style: TextStyle(
+                  fontSize: 18,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87),
+            ),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              "x²",
+              style: TextStyle(
+                  fontSize: 18,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87),
+            ),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              "x³",
+              style: TextStyle(
+                  fontSize: 18,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87),
+            ),
+          ),
+          TextButton(
+            onPressed: () {funcBtnPressed("!");},
+            child: Text(
+              "x!",
+              style: TextStyle(
+                  fontSize: 18,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87),
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              funcBtnPressed("c");
+            },
+            icon: Icon(
+              Icons.backspace,
+              color: PaletteColor.functionLightColor,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,45 +238,54 @@ class _ScreenState extends State<Screen> {
       body: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height-620,
+            alignment: Alignment.centerRight,
+            margin: EdgeInsets.only(top: 50, right: 10),
+            child: Text(
+              calcString,
+              style: TextStyle(fontSize: 48, color: Colors.black87),
+            ),
+            height: MediaQuery.of(context).size.height - 640,
           ),
-          CustomTopBar(),
+          customTopBar(),
           Container(
-            height: 466,
+            height: 430,
             child: GridView.count(
               crossAxisCount: 4,
-
               children: [
-                CustomNumberButton(number: 7),
-                CustomNumberButton(number: 8),
-                CustomNumberButton(number: 9),
-                CustomFunctionButton(func: "+"),
-                CustomNumberButton(number: 4),
-                CustomNumberButton(number: 5),
-                CustomNumberButton(number: 6),
-                CustomFunctionButton(func: "-"),
-                CustomNumberButton(number: 1),
-                CustomNumberButton(number: 2),
-                CustomNumberButton(number: 3),
-                CustomFunctionButton(func: "÷"),
-                CustomNumberButton(number: 0),
-                CustomDecimalButton(),
-                CustomFunctionButton(func: "±"),
-                CustomFunctionButton(func: "x"),
+                customNumberButton(number: 7),
+                customNumberButton(number: 8),
+                customNumberButton(number: 9),
+                customFunctionButton(func: "+"),
+                customNumberButton(number: 4),
+                customNumberButton(number: 5),
+                customNumberButton(number: 6),
+                customFunctionButton(func: "-"),
+                customNumberButton(number: 1),
+                customNumberButton(number: 2),
+                customNumberButton(number: 3),
+                customFunctionButton(func: "÷"),
+                customNumberButton(number: 0),
+                customFunctionButton(func: "."),
+                customFunctionButton(func: "±"),
+                customFunctionButton(func: "x"),
               ],
             ),
           ),
           Row(children: [
-
-            CustomClearEverythingButton(),
-            CustomDisplayModeButton(),
-            CustomEqualButton(),
+            customClearEverythingButton(),
+            customEqualButton(),
           ]),
         ],
       ),
     );
   }
+
+  int calcFactorial(int value) {
+    if(value==1) return 1;
+    return value*calcFactorial(value-1);
+  }
 }
+
 // Container(
 //   alignment: Alignment.center,
 //   width: 80,
