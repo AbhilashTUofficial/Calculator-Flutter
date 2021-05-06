@@ -102,7 +102,7 @@ class _ScreenState extends State<Screen> {
   }
 
   // This return a custom build Number buttons with
-  // Neuomorphics effect and the buttons also
+  // Neumorphic effect and the buttons also
   // bind to on press function calls.
   Widget customNumberButton({@required int number}) {
     return NeuomorphicContainer(
@@ -129,7 +129,7 @@ class _ScreenState extends State<Screen> {
   }
 
   // This return a custom build CE button with
-  // Neuomorphics effect and the buttons also
+  // Neumorphic effect and the buttons also
   // bind to on press function calls.
   Widget customClearEverythingButton() {
     return NeuomorphicContainer(
@@ -156,7 +156,7 @@ class _ScreenState extends State<Screen> {
   }
 
   // This return a custom build Equals button with
-  // Neuomorphics effect and the buttons also
+  // Neumorphic effect and the buttons also
   // bind to on press function calls.
   Widget customEqualButton() {
     return NeuomorphicContainer(
@@ -183,7 +183,7 @@ class _ScreenState extends State<Screen> {
   }
 
   // This return a custom build Function buttons with
-  // Neuomorphics effect and the buttons also
+  // Neumorphic effect and the buttons also
   // bind to on press function calls.
   Widget customFunctionButton({@required String func}) {
     return NeuomorphicContainer(
@@ -211,7 +211,7 @@ class _ScreenState extends State<Screen> {
     );
   }
 
-  // The custom Neuomorphic bar
+  // The custom Neumorphic bar
   // which contain the square, cube, sqrt and factorial
   // functionalities.
   Widget customTopBar() {
@@ -347,7 +347,7 @@ class _ScreenState extends State<Screen> {
   }
 }
 
-// Equivalent code for make the Neuomorphic effect
+// Equivalent code for make the Neumorphic effect
 // Without using the external package.
 
 // Container(

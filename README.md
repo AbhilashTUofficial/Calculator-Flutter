@@ -1,5 +1,5 @@
-# Flutter Neuomorphic Calculator
-This is an fully functional Flutter calculator, with Neuomorphic effect buttons and
+# Flutter Neumorphic Calculator
+This is an fully functional Flutter calculator, with Neumorphic effect buttons and
 display. This app also have the functionality to calculate square, cube, factorial, square-root of a value and also can do multiple operation on a single line.
 <br/>
 ### Languages & tools :
@@ -9,7 +9,7 @@ display. This app also have the functionality to calculate square, cube, factori
 <br/><br/>
 ![GitHub last commit](https://img.shields.io/github/last-commit/AbhilashTUofficial/Calculator-Flutter?color=blue&label=Last%20Commit%3A&style=for-the-badge)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AbhilashTUofficial/Calculator-Flutter?label=Repo%20Size%3A&style=for-the-badge)
-| Neuomorphic Flutter Calculator |
+| Neumorphic Flutter Calculator |
 |------|
 |<img src="./Img/flutterCalculator.png" width="400">|
 
