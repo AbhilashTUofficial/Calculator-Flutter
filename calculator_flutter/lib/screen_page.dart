@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
@@ -13,6 +14,7 @@ class Screen extends StatefulWidget {
 class _ScreenState extends State<Screen> {
   String calcString = "0";
 
+  // Calculate the value
   calculate(String input) {
     String result = "0";
     input = input.replaceAll("÷", "/");
@@ -27,6 +29,30 @@ class _ScreenState extends State<Screen> {
     return result;
   }
 
+  // Calculate the cube
+  calculateCube(String input) {
+    var value = double.parse(calculate(input)).round();
+    return pow(value, 3).toString();
+  }
+
+  // Calculate the square
+  calculateSquare(String input) {
+    var value = double.parse(calculate(input)).round();
+    return pow(value, 2).toString();
+  }
+
+  // Calculate the Sqrt
+  calculateRoot(String input) {
+    var value = double.parse(calculate(input)).round();
+
+    return sqrt(value).toString();
+  }
+  changeSign(String input){
+
+  }
+
+  // This function called whenever a button is pressed
+  // Append or assign the result to the display
   numberBtnPressed(String input) {
     setState(() {
       if (calcString.length == 1 && calcString == "0" ||
@@ -38,14 +64,26 @@ class _ScreenState extends State<Screen> {
     });
   }
 
+  // With a nested if-else statement determine
+  // which button is pressed and which function to call.
+  // I should have used switch-case statement here.
+  // anyway it don't make any difference.
   funcBtnPressed(String input) {
     setState(() {
       if (input == "c") {
         calcString = calcString.substring(0, calcString.length - 1);
       } else if (input == "!") {
-        var value =double.parse( calculate(calcString)).round();
+        var value = double.parse(calculate(calcString)).round();
         assert(value is int);
-        calcString=calcFactorial(value).toString();
+        calcString = calcFactorial(value).toString();
+      } else if (input == "q") {
+        calcString = calculateCube(calcString);
+      } else if (input == "s") {
+        calcString = calculateSquare(calcString);
+      } else if (input == "r") {
+        calcString = calculateRoot(calcString);
+      } else if (input == "±") {
+        calcString = changeSign(calcString);
       } else {
         if (input == "=") {
           calcString = calculate(calcString);
@@ -63,6 +101,9 @@ class _ScreenState extends State<Screen> {
     });
   }
 
+  // This return a custom build Number buttons with
+  // Neuomorphics effect and the buttons also
+  // bind to on press function calls.
   Widget customNumberButton({@required int number}) {
     return NeuomorphicContainer(
       margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -87,6 +128,9 @@ class _ScreenState extends State<Screen> {
     );
   }
 
+  // This return a custom build CE button with
+  // Neuomorphics effect and the buttons also
+  // bind to on press function calls.
   Widget customClearEverythingButton() {
     return NeuomorphicContainer(
       margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
@@ -111,6 +155,9 @@ class _ScreenState extends State<Screen> {
     );
   }
 
+  // This return a custom build Equals button with
+  // Neuomorphics effect and the buttons also
+  // bind to on press function calls.
   Widget customEqualButton() {
     return NeuomorphicContainer(
       margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
@@ -135,6 +182,9 @@ class _ScreenState extends State<Screen> {
     );
   }
 
+  // This return a custom build Function buttons with
+  // Neuomorphics effect and the buttons also
+  // bind to on press function calls.
   Widget customFunctionButton({@required String func}) {
     return NeuomorphicContainer(
       margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -161,6 +211,9 @@ class _ScreenState extends State<Screen> {
     );
   }
 
+  // The custom Neuomorphic bar
+  // which contain the square, cube, sqrt and factorial
+  // functionalities.
   Widget customTopBar() {
     return NeuomorphicContainer(
       margin: EdgeInsets.only(top: 10),
@@ -174,7 +227,9 @@ class _ScreenState extends State<Screen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              funcBtnPressed("r");
+            },
             child: Text(
               "√x",
               style: TextStyle(
@@ -185,7 +240,9 @@ class _ScreenState extends State<Screen> {
             ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              funcBtnPressed("s");
+            },
             child: Text(
               "x²",
               style: TextStyle(
@@ -196,7 +253,9 @@ class _ScreenState extends State<Screen> {
             ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              funcBtnPressed("q");
+            },
             child: Text(
               "x³",
               style: TextStyle(
@@ -207,7 +266,9 @@ class _ScreenState extends State<Screen> {
             ),
           ),
           TextButton(
-            onPressed: () {funcBtnPressed("!");},
+            onPressed: () {
+              funcBtnPressed("!");
+            },
             child: Text(
               "x!",
               style: TextStyle(
@@ -281,10 +342,13 @@ class _ScreenState extends State<Screen> {
   }
 
   int calcFactorial(int value) {
-    if(value==1) return 1;
-    return value*calcFactorial(value-1);
+    if (value == 1) return 1;
+    return value * calcFactorial(value - 1);
   }
 }
+
+// Equivalent code for make the Neuomorphic effect
+// Without using the external package.
 
 // Container(
 //   alignment: Alignment.center,
